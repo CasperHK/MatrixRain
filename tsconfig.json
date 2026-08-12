@@ -13,6 +13,8 @@
     "declaration": true,
     "sourceMap": true,
     "isolatedModules": true,
+    "jsx": "preserve",
+    "experimentalDecorators": true,
     "types": ["node"]
   },
   "include": ["src/**/*", "rslib.config.ts"]

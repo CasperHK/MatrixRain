@@ -18,6 +18,12 @@ export default defineConfig({
   source: {
     entry: {
       index: './src/index.ts',
+      react: './src/react/index.tsx',
+      vue: './src/vue/index.tsx',
+      qwik: './src/qwik/index.tsx',
+      solid: './src/solid/index.tsx',
+      angular: './src/angular/index.ts',
+      svelte: './src/svelte/index.ts',
     },
   },
 });
