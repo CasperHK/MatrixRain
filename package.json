@@ -1,6 +1,6 @@
 {
   "name": "matrix-digital-rain",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": false,
   "description": "Matrix digital rain effect library built with TypeScript and rslib",
   "type": "module",
