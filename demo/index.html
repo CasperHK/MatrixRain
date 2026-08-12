@@ -35,26 +35,114 @@
         position: fixed;
         inset: 0;
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
         pointer-events: none;
         color: rgba(255, 255, 255, 0.85);
         text-shadow: 0 0 10px rgba(0, 255, 102, 0.8);
         letter-spacing: 0.2rem;
-        font-size: clamp(24px, 4vw, 56px);
-        text-transform: uppercase;
         font-weight: 700;
+      }
+
+      .title {
+        font-size: clamp(28px, 4vw, 60px);
+        text-transform: uppercase;
+      }
+
+      .subtitle {
+        margin-top: 0.6rem;
+        font-size: clamp(12px, 1.8vw, 18px);
+        letter-spacing: 0.35rem;
+        opacity: 0.8;
+      }
+
+      .language-switcher {
+        position: fixed;
+        top: 1.25rem;
+        right: 1.25rem;
+        display: flex;
+        gap: 0.5rem;
+        pointer-events: auto;
+        z-index: 2;
+      }
+
+      .language-btn {
+        appearance: none;
+        border: 1px solid rgba(0, 255, 102, 0.7);
+        background: rgba(0, 0, 0, 0.4);
+        color: #dfffe9;
+        border-radius: 999px;
+        padding: 0.45rem 0.8rem;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+
+      .language-btn.active {
+        background: rgba(0, 255, 102, 0.18);
+        box-shadow: 0 0 14px rgba(0, 255, 102, 0.5);
       }
     </style>
   </head>
   <body>
     <canvas id="matrix-canvas"></canvas>
-    <div class="overlay">Matrix</div>
+
+    <div class="language-switcher" aria-label="Language selector">
+      <button class="language-btn active" type="button" data-lang="en">EN</button>
+      <button class="language-btn" type="button" data-lang="ja">日本語</button>
+      <button class="language-btn" type="button" data-lang="zh">中文</button>
+    </div>
+
+    <div class="overlay" aria-live="polite">
+      <div class="title" id="title">Matrix</div>
+      <div class="subtitle" id="subtitle">Digital Rain</div>
+    </div>
 
     <script type="module">
       import { MatrixRain } from '../dist/index.js';
 
       const canvas = document.getElementById('matrix-canvas');
+      const titleEl = document.getElementById('title');
+      const subtitleEl = document.getElementById('subtitle');
+
+      const translations = {
+        en: {
+          title: 'Matrix',
+          subtitle: 'Digital Rain',
+          characters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789',
+        },
+        ja: {
+          title: 'マトリクス',
+          subtitle: 'デジタル雨',
+          characters: 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789',
+        },
+        zh: {
+          title: '矩阵',
+          subtitle: '数字雨',
+          characters: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789零一二三四五六七八九十百千万亿汉字雨阵矩阵',
+        },
+      };
+
+      function setLanguage(lang) {
+        const values = translations[lang] ?? translations.en;
+        titleEl.textContent = values.title;
+        subtitleEl.textContent = values.subtitle;
+        instance.setCharacters(values.characters);
+
+        document.querySelectorAll('.language-btn').forEach((button) => {
+          const isActive = button.dataset.lang === lang;
+          button.classList.toggle('active', isActive);
+          button.setAttribute('aria-pressed', String(isActive));
+        });
+      }
+
+      document.querySelectorAll('.language-btn').forEach((button) => {
+        button.addEventListener('click', () => {
+          setLanguage(button.dataset.lang);
+        });
+      });
+
       const instance = new MatrixRain({
         canvas,
         fontSize: 18,
@@ -62,8 +150,10 @@
         fadeAlpha: 0.08,
         backgroundColor: 'rgba(0, 0, 0, 0.07)',
         speed: 1,
+        characters: translations.en.characters,
       });
 
+      window.__matrixRain = instance;
       instance.start();
       window.addEventListener('beforeunload', () => instance.destroy());
     </script>

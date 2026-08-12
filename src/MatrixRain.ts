@@ -6,10 +6,10 @@ export class MatrixRain {
   private readonly canvas: HTMLCanvasElement;
   private readonly context: CanvasRenderingContext2D;
   private readonly fontSize: number;
-  private readonly color: string;
-  private readonly backgroundColor: string;
-  private readonly fadeAlpha: number;
-  private readonly characters: string;
+  private color: string;
+  private backgroundColor: string;
+  private fadeAlpha: number;
+  private characters: string;
   private readonly speed: number;
   private readonly state: MatrixRainState = {
     columns: [],
@@ -49,6 +49,28 @@ export class MatrixRain {
     };
 
     this.state.frameId = window.requestAnimationFrame(tick);
+  }
+
+  setCharacters(characters: string): void {
+    this.characters = characters || DEFAULT_CHARACTERS;
+  }
+
+  updateOptions(options: Partial<MatrixRainOptions>): void {
+    if (options.color) {
+      this.color = options.color;
+    }
+
+    if (options.backgroundColor) {
+      this.backgroundColor = options.backgroundColor;
+    }
+
+    if (typeof options.fadeAlpha === 'number') {
+      this.fadeAlpha = options.fadeAlpha;
+    }
+
+    if (options.characters) {
+      this.setCharacters(options.characters);
+    }
   }
 
   destroy(): void {
