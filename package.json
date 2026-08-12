@@ -1,0 +1,39 @@
+{
+  "name": "matrix-digital-rain",
+  "version": "0.1.0",
+  "private": false,
+  "description": "Matrix digital rain effect library built with TypeScript and rslib",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "rslib dev",
+    "build": "rslib build",
+    "check": "tsc --noEmit",
+    "prepublishOnly": "pnpm build"
+  },
+  "keywords": [
+    "matrix",
+    "canvas",
+    "effect",
+    "library",
+    "typescript"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@rslib/core": "^0.7.0",
+    "@types/node": "^22.15.30",
+    "typescript": "^5.5.4"
+  }
+}

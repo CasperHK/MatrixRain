@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MatrixRain Demo</title>
+    <style>
+      :root {
+        color-scheme: dark;
+      }
+
+      html, body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #000;
+        font-family: Arial, sans-serif;
+      }
+
+      body {
+        position: relative;
+      }
+
+      canvas {
+        position: fixed;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+        background: rgba(0, 0, 0, 0.9);
+      }
+
+      .overlay {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        pointer-events: none;
+        color: rgba(255, 255, 255, 0.85);
+        text-shadow: 0 0 10px rgba(0, 255, 102, 0.8);
+        letter-spacing: 0.2rem;
+        font-size: clamp(24px, 4vw, 56px);
+        text-transform: uppercase;
+        font-weight: 700;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="matrix-canvas"></canvas>
+    <div class="overlay">Matrix</div>
+
+    <script type="module">
+      import { MatrixRain } from '../dist/index.js';
+
+      const canvas = document.getElementById('matrix-canvas');
+      const instance = new MatrixRain({
+        canvas,
+        fontSize: 18,
+        color: '#00FF66',
+        fadeAlpha: 0.08,
+        backgroundColor: 'rgba(0, 0, 0, 0.07)',
+        speed: 1,
+      });
+
+      instance.start();
+      window.addEventListener('beforeunload', () => instance.destroy());
+    </script>
+  </body>
+</html>
